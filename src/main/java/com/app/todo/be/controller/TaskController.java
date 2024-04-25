@@ -33,8 +33,12 @@ public class TaskController {
     }
 
     @PutMapping("/task/{id}")
-    public Task updateTaskById(@PathVariable String id, @RequestBody Task task){
-        return taskService.updateTaskById(id, task);
+    public Object updateTaskById(@PathVariable String id, @RequestBody Task task){
+        boolean responseTrigger = taskService.updateTaskById(id, task);
+        if(responseTrigger){
+            return ResponseEntity.ok("Successfully updated task: ".concat(id));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/task/{id}")

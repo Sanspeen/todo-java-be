@@ -5,12 +5,16 @@ import com.app.todo.be.repository.TaskRepository;
 import com.app.todo.be.service.TaskService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class TaskServiceTest {
 
@@ -55,5 +59,78 @@ public class TaskServiceTest {
         assertEquals(mockTasks, tasks);
     }
 
+    @Test
+    public void testGetTaskById() {
+        // Arrange
+        Task mockTask = new Task("1", "Task 1", "Description 1", false);
+        when(taskRepositoryMock.findById("1")).thenReturn(Optional.of(mockTask));
+
+        // Act
+        Optional<Task> task = taskService.getTaskById("1");
+
+        // Assert
+        assertTrue(task.isPresent());
+        assertEquals(mockTask, task.get());
+    }
+
+    @Test
+    public void testUpdateTaskById_ReturnsTrue() {
+        // Arrange
+        String taskId = "1";
+        Task existingTask = new Task(taskId, "Task 1", "Description 1", false);
+        Task updatedTask = new Task(taskId, "Updated Task 1", "Updated Description 1", true);
+        when(taskRepositoryMock.findById(taskId)).thenReturn(Optional.of(existingTask));
+
+        // Act
+        boolean result = taskService.updateTaskById(taskId, updatedTask);
+
+        // Assert
+        assertTrue(result);
+
+        // Verificamos que el método findById fue llamado una vez con el taskId
+        verify(taskRepositoryMock, times(1)).findById(taskId);
+
+        // Capturamos el objeto pasado al método save
+        ArgumentCaptor<Task> captor = ArgumentCaptor.forClass(Task.class);
+        verify(taskRepositoryMock, times(1)).save(captor.capture());
+
+        // Obtenemos el objeto capturado
+        Task savedTask = captor.getValue();
+
+        // Verificamos los atributos del objeto guardado
+        assertEquals(updatedTask.getId(), savedTask.getId());
+        assertEquals(updatedTask.getTitle(), savedTask.getTitle());
+        assertEquals(updatedTask.getDescription(), savedTask.getDescription());
+        assertEquals(updatedTask.getCompleted(), savedTask.getCompleted());
+    }
+
+    @Test
+    void testUpdateTaskById_ReturnsFalse() {
+        // Arrange
+        String taskId = "1";
+        Task updatedTask = new Task(taskId, "Updated Task 1", "Updated Description 1", true);
+        when(taskRepositoryMock.findById(taskId)).thenReturn(Optional.empty());
+
+        // Act
+        boolean result = taskService.updateTaskById(taskId, updatedTask);
+
+        // Assert
+        assertFalse(result);
+        verify(taskRepositoryMock, times(1)).findById(taskId);
+        verify(taskRepositoryMock, never()).save(updatedTask);
+    }
+
+    @Test
+    public void testDeleteById() {
+        // Arrange
+        Task taskToDelete = new Task("1", "Task 1", "Description 1", false);
+        when(taskRepositoryMock.findById("1")).thenReturn(Optional.of(taskToDelete));
+
+        // Act
+        taskService.deleteById("1");
+
+        // Assert
+        verify(taskRepositoryMock, times(1)).deleteById("1");
+    }
 
 }

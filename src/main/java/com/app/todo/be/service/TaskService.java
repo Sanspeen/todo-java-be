@@ -29,10 +29,10 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public Task updateTaskById(String id, Task task){
+    public boolean updateTaskById(String id, Task task){
         Optional<Task> taskToUpdate = this.taskRepository.findById(id);
         if(taskToUpdate.isEmpty()){
-            return null;
+            return false;
         }
 
         Task updatedTask = new Task();
@@ -41,7 +41,8 @@ public class TaskService {
         updatedTask.setDescription(task.getDescription());
         updatedTask.setCompleted(task.getCompleted());
 
-        return taskRepository.save(updatedTask);
+        taskRepository.save(updatedTask);
+        return true;
     }
 
     public void deleteById(String id){
