@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -24,6 +25,16 @@ public class TaskController {
     @GetMapping("/task")
     public List<Task> getTasks(){
         return taskService.getTasks().stream().toList();
+    }
+
+    @GetMapping("/task/{id}")
+    public Optional<Task> getTaskById(@PathVariable String id){
+        return taskService.getTaskById(id);
+    }
+
+    @PutMapping("/task/{id}")
+    public Task updateTaskById(@PathVariable String id, @RequestBody Task task){
+        return taskService.updateTaskById(id, task);
     }
 
 

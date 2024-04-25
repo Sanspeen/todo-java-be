@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -13,11 +14,31 @@ public class TaskService {
     @Autowired
     TaskRepository taskRepository;
 
+
     public Task insertTask(Task task){
         return taskRepository.save(task);
     }
 
     public List<Task> getTasks(){
         return taskRepository.findAll();
+    }
+
+    public Optional<Task> getTaskById(String id){
+        return taskRepository.findById(id);
+    }
+
+    public Task updateTaskById(String id, Task task){
+        Optional<Task> taskToUpdate = this.taskRepository.findById(id);
+        if(taskToUpdate.isEmpty()){
+            return null;
+        }
+
+        Task updatedTask = new Task();
+        updatedTask.setId(id);
+        updatedTask.setTitle(task.getTitle());
+        updatedTask.setDescription(task.getDescription());
+        updatedTask.setCompleted(task.getCompleted());
+
+        return taskRepository.save(updatedTask);
     }
 }
