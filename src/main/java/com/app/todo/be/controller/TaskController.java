@@ -17,21 +17,25 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @CrossOrigin
     @PostMapping("/task")
     public ResponseEntity<Task> insertTask(@RequestBody Task task){
         return ResponseEntity.ok(taskService.insertTask(task));
     }
 
+    @CrossOrigin
     @GetMapping("/task")
     public List<Task> getTasks(){
         return taskService.getTasks().stream().toList();
     }
 
+    @CrossOrigin
     @GetMapping("/task/{id}")
     public Optional<Task> getTaskById(@PathVariable String id){
         return taskService.getTaskById(id);
     }
 
+    @CrossOrigin
     @PutMapping("/task/{id}")
     public Object updateTaskById(@PathVariable String id, @RequestBody Task task){
         boolean responseTrigger = taskService.updateTaskById(id, task);
@@ -41,6 +45,7 @@ public class TaskController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin
     @DeleteMapping("/task/{id}")
     public void deleteById(@PathVariable String id){
         taskService.deleteById(id);
