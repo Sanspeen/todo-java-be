@@ -2,6 +2,7 @@ package com.app.todo.be.service;
 
 import com.app.todo.be.model.Task;
 import com.app.todo.be.repository.TaskRepository;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Setter
 public class TaskService {
 
     @Autowired
