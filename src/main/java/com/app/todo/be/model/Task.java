@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuperBuilder
 @Getter
 @Setter
-@Document("Task")
+@Document("task")
 public class Task {
     @Id
     private String id;
