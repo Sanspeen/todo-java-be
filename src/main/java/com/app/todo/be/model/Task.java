@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Task {
     @Id
     private String id;
-    private String title;
     private String description;
-    private Boolean completed;
+    private Boolean done;
 }
