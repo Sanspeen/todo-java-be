@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Document("task")
 public class Task {
-    @Id
     private String id;
     private String description;
     private Boolean done;
