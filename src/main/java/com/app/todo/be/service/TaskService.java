@@ -37,9 +37,8 @@ public class TaskService {
 
         Task updatedTask = new Task();
         updatedTask.setId(id);
-        updatedTask.setTitle(task.getTitle());
         updatedTask.setDescription(task.getDescription());
-        updatedTask.setCompleted(task.getCompleted());
+        updatedTask.setDone(task.getDone());
 
         taskRepository.save(updatedTask);
         return true;
