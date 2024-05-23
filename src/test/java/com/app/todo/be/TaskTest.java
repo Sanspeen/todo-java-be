@@ -24,4 +24,17 @@ class TaskTest {
         assertThat(task.getDescription()).isEqualTo("Test Description");
         assertThat(task.getDone()).isTrue();
     }
+
+    @Test
+    public void testToString() {
+        Task task = Task.builder()
+                .id("1")
+                .title("Test Task")
+                .description("This is a test task description")
+                .done(true)
+                .build();
+
+        String expectedString = "Task(id=1, title=Test Task, description=This is a test task description, done=true)";
+        assertThat(task.toString()).isEqualTo(expectedString);
+    }
 }

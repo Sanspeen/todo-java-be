@@ -6,7 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@Builder
+@ToString
 @Getter
 @Setter
 @Document("task")

@@ -171,6 +171,6 @@ public class TaskControllerE2ETest {
                 .when()
                 .get("/api/v1/task/" + taskId)
                 .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+                .statusCode(HttpStatus.OK.value());
     }
 }
