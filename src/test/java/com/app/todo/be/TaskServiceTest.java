@@ -3,6 +3,7 @@ package com.app.todo.be;
 import com.app.todo.be.model.Task;
 import com.app.todo.be.repository.TaskRepository;
 import com.app.todo.be.service.TaskService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -13,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+//First
+//F: Se pueden ejecutar muchas pruebas rapido
 public class TaskServiceTest {
 
     @Mock
@@ -29,6 +31,11 @@ public class TaskServiceTest {
         taskService.setTaskRepository(taskRepositoryMock);
     }
 
+    //First
+    //I: Independientes una prueba de otra
+    //R: Repetible, se puede ejecutar las veces que quieras
+    //S: SELF-VALIDATING: Se valida con solo un click
+    //T: Timely: Implementado con TDD ;)
     @Test
     public void testInsertTask() {
         // Arrange
@@ -39,8 +46,8 @@ public class TaskServiceTest {
         Task insertedTask = taskService.insertTask(taskToInsert);
 
         // Assert
-        assertNotNull(insertedTask);
-        assertEquals(taskToInsert, insertedTask);
+        Assertions.assertNotNull(insertedTask);
+        Assertions.assertEquals(taskToInsert, insertedTask);
     }
 
     @Test
@@ -55,8 +62,8 @@ public class TaskServiceTest {
         List<Task> tasks = taskService.getTasks();
 
         // Assert
-        assertEquals(mockTasks.size(), tasks.size());
-        assertEquals(mockTasks, tasks);
+        Assertions.assertEquals(mockTasks.size(), tasks.size());
+        Assertions.assertEquals(mockTasks, tasks);
     }
 
     @Test
@@ -69,8 +76,8 @@ public class TaskServiceTest {
         Optional<Task> task = taskService.getTaskById("1");
 
         // Assert
-        assertTrue(task.isPresent());
-        assertEquals(mockTask, task.get());
+        Assertions.assertTrue(task.isPresent());
+        Assertions.assertEquals(mockTask, task.get());
     }
 
     @Test
@@ -85,7 +92,7 @@ public class TaskServiceTest {
         boolean result = taskService.updateTaskById(taskId, updatedTask);
 
         // Assert
-        assertTrue(result);
+        Assertions.assertTrue(result);
 
         // Verificamos que el método findById fue llamado una vez con el taskId
         verify(taskRepositoryMock, times(1)).findById(taskId);
@@ -98,10 +105,10 @@ public class TaskServiceTest {
         Task savedTask = captor.getValue();
 
         // Verificamos los atributos del objeto guardado
-        assertEquals(updatedTask.getId(), savedTask.getId());
-        assertEquals(updatedTask.getTitle(), savedTask.getTitle());
-        assertEquals(updatedTask.getDescription(), savedTask.getDescription());
-        assertEquals(updatedTask.getDone(), savedTask.getDone());
+        Assertions.assertEquals(updatedTask.getId(), savedTask.getId());
+        Assertions.assertEquals(updatedTask.getTitle(), savedTask.getTitle());
+        Assertions.assertEquals(updatedTask.getDescription(), savedTask.getDescription());
+        Assertions.assertEquals(updatedTask.getDone(), savedTask.getDone());
     }
 
     @Test
@@ -115,7 +122,7 @@ public class TaskServiceTest {
         boolean result = taskService.updateTaskById(taskId, updatedTask);
 
         // Assert
-        assertFalse(result);
+        Assertions.assertFalse(result);
         verify(taskRepositoryMock, times(1)).findById(taskId);
         verify(taskRepositoryMock, never()).save(updatedTask);
     }
