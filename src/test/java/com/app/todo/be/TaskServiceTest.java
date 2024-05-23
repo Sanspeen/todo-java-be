@@ -101,7 +101,7 @@ public class TaskServiceTest {
         assertEquals(updatedTask.getId(), savedTask.getId());
         assertEquals(updatedTask.getTitle(), savedTask.getTitle());
         assertEquals(updatedTask.getDescription(), savedTask.getDescription());
-        assertEquals(updatedTask.getCompleted(), savedTask.getCompleted());
+        assertEquals(updatedTask.getDone(), savedTask.getDone());
     }
 
     @Test
